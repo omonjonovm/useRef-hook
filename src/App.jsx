@@ -1,48 +1,23 @@
-import { Fragment, useRef, useState } from "react"
+import useInputValidation from "./hook/useInputValidation"
 
-const User = () =>{
-  const [cardNumber,setCardNumber]  = useState('')
-  const [cvcNumber,setCvcNumber] = useState('')
-  const acmRef = useRef(null)
-  const dataRef = useRef(null)
-
-  const handleInput = e => {
-    const val = e.target.value
-    setCardNumber(val)
-    if(val.length === 16){
-      acmRef.current.focus()
-    }
-  }
-  const handleInputCvc  = e => {
-    const val = e.target.value
-    setCvcNumber(val)
-    if(val.length === 3){
-      dataRef.current.focus()
-    }
-  }
-  // useEffect(() => {
-  //   console.log(acmRef.current);
-  // })
-  return(
-  <div className="w-50 mx-auto mb-5">
-    <div className="border p-3 mt-5">
-     <input type="text" className="form-control" placeholder="Card number" onChange={handleInput} value={cardNumber}/>
-     <input ref={acmRef} type="text" className="form-control mt-3" placeholder="Secure number" onChange={handleInputCvc} value={cvcNumber}/>
-     <input ref={dataRef} type="text" className="form-control mt-3" placeholder="Year/Month"/>
-    </div>
-  </div>
-
- )
-}
-
-
-
-const App = () => {
+const User = () => {
+ const firstname = useInputValidation('')
+ const lastname = useInputValidation('')
 
   return (
-    <Fragment>
-      <User firstname='Murodjon' lastName='Omonjonov' link='https://t.me/omonjonov_m' />
-    </Fragment>
+    <div className="w-50 mx-auto mb-5">
+      <div className="border p-3 mt-5">
+        <p className="text-center fs-3">Register</p>
+        <div className="d-flex gap-3">
+          <input type="text" className={`form-control ${firstname.colorValidate}`} placeholder="FirstName" value={firstname.value} onChange={firstname.onChange} />
+          <input type="text" className={`form-control ${lastname.colorValidate}`} placeholder="LastName" value={lastname.value} onChange={lastname.onChange} />
+        </div>
+        <button className="mt-3 btn btn-success">Send data</button>
+      </div>
+    </div>
   )
+}
+const App = () => {
+  return <User />
 }
 export default App
